@@ -9,6 +9,8 @@ const initialState = { loading: false, cart: cartItems, total: 0, amount: 0 };
 const AppContext = React.createContext();
 const CLEARCART = "CLEARCART";
 const REMOVEITEM = "REMOVEITEM";
+const INCREMENT = "INCREMENT";
+const DECREMENT = "DECREMENT";
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -19,13 +21,21 @@ const AppProvider = ({ children }) => {
   const removeItem = (id) => {
     dispatch({ type: REMOVEITEM, payload: id });
   };
-
+  const increment = (id) => {
+    dispatch({ type: INCREMENT, payload: id });
+  };
+  const decrement = (id) => {
+    
+    dispatch({ type: DECREMENT, payload: id });
+  };
   return (
     <AppContext.Provider
       value={{
         ...state,
         clearCart,
         removeItem,
+        increment,
+        decrement,
       }}
     >
       {children}
