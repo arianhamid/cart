@@ -2,11 +2,13 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "CLEARCART":
       return { ...state, cart: [] };
+
     case "REMOVEITEM":
       const newCartItems = state.cart.filter((item) => {
         return item.id !== action.payload;
       });
       return { ...state, cart: newCartItems };
+
     case "INCREMENT":
       const newCartIncrement = state.cart.map((item) => {
         if (item.id === action.payload) {
@@ -15,6 +17,7 @@ const reducer = (state, action) => {
         return item;
       });
       return { ...state, cart: newCartIncrement };
+
     case "DECREMENT":
       const newCartDecrement = state.cart
         .map((item) => {
@@ -25,7 +28,23 @@ const reducer = (state, action) => {
         })
         .filter((item) => item.amount !== 0);
       return { ...state, cart: newCartDecrement };
-      return { ...state, cart: [] };
+
+    case "GET_TOTALS":
+      let { total, amount } = state.cart.reduce(
+        (cartTotal, cartItem) => {
+          const { price, amount } = cartItem;
+          const itemTotal = price * amount;
+          cartTotal.total += itemTotal;
+          cartTotal.amount += amount;
+          return cartTotal;
+        },
+        {
+          total: 0,
+          amount: 0,
+        }
+      );
+      total = parseFloat(total.toFixed(2));
+      return { ...state, total, amount };
   }
   return state;
 };
