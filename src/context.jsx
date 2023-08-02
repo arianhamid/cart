@@ -16,6 +16,16 @@ const GET_TOTALS = "GET_TOTALS";
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const fetchData = async () => {
+    dispatch({ type: "LOADING" });
+    const data = await fetch(url);
+    const cart = await data.json();
+    dispatch({ type: "DISPLAY_ITEMS", payload: cart });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const clearCart = () => {
     dispatch({ type: CLEARCART });
   };

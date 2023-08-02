@@ -8,6 +8,7 @@ import CartContainer from "./CartContainer";
 
 function App() {
   const { loading } = useGlobalContext();
+
   if (loading) {
     return (
       <div className="loading">
@@ -15,6 +16,8 @@ function App() {
       </div>
     );
   }
+
+
   return (
     <main>
       <Navbar />
